@@ -1,0 +1,53 @@
+/* AuthForm.css */
+.auth-form {
+  margin-top: 50px;
+  margin-bottom: 30px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 30px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+.auth-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.auth-form p {
+  text-align: center;
+  cursor: pointer;
+  color: #007bff;
+  margin-top: 15px;
+}
+
+/* Style for form fields */
+.auth-form .form-control {
+  margin-bottom: 20px;
+}
+
+/* Style for submit button */
+.auth-form .btn-primary {
+  width: 100%;
+}
+
+/* Style for link to toggle between login and signup */
+.auth-form .toggle-link {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+  color: #555;
+}
+
+.auth-form .toggle-link span {
+  cursor: pointer;
+  color: #007bff;
+  font-weight: bold;
+}
+
+.auth-form .toggle-link span:hover {
+  text-decoration: underline;
+}
