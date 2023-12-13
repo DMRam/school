@@ -1,0 +1,16 @@
+/* App.css */
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Make sure the container takes at least the height of the viewport */
+}
+
+.content {
+  flex: 1; /* Allow content to expand and take remaining space */
+}

@@ -10,7 +10,7 @@
   .layout .react-grid-item {
     width: 100%; /* Use full width */
     margin-bottom: 10px; /* Adjust margin for better spacing */
-    box-shadow: 0 4px 8px rgba(244, 2, 2, 0.2); /* Add box shadow */
+    box-shadow: 0 4px 8px rgba(63, 129, 242, 0.2); /* Add box shadow */
     /* Adjust other styles for smaller screens */
   }
   .layout .react-grid-item > div {
