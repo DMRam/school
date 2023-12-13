@@ -8,6 +8,8 @@ import com.ulogicit.school.service.authentication.payload.response.UserInfoRespo
 import com.ulogicit.school.service.authentication.repo.UserRepository;
 import com.ulogicit.school.service.authentication.security.jwt.JwtUtil;
 import com.ulogicit.school.service.authentication.security.services.AuthUserDetailsImp;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
@@ -19,9 +21,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -92,5 +91,20 @@ public class AuthController {
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logoutUser(HttpServletRequest request, HttpServletResponse response) {
+        // Extract JWT token from request cookies
+        String jwtToken = jwtUtils.getJwtFromCookies(request);
+
+        if (jwtToken != null && jwtUtils.validateJwtToken(jwtToken)) {
+            // Generate a clean JWT cookie (with immediate expiration)
+            ResponseCookie expiredJwtCookie = jwtUtils.getCleanJwtCookie();
+            response.setHeader(HttpHeaders.SET_COOKIE, expiredJwtCookie.toString());
+            return ResponseEntity.ok(new MessageResponse("Logout successful"));
+        }
+        return ResponseEntity.badRequest().body(new MessageResponse("Invalid or missing JWT token"));
+    }
+
 
 }

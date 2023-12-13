@@ -8,18 +8,22 @@ import './App.css'; // Import your CSS file for styling
 
 export const App = () => {
   return (
-    <div className="app-container">
-      <HeaderComp />
-      <div className="content">
-        <BrowserRouter>
-          <Routes>
-            <Route path='/' element={<AuthenticationScreen />} />
-            <Route path='/auth' element={<AuthenticationScreen />} />
-            <Route path='/dashboard' element={<DashboardComp />} />
-          </Routes>
-        </BrowserRouter>
-      </div>
-      <FooterComp />
-    </div>
+    <React.StrictMode>
+      <BrowserRouter>
+        <div className="app-container">
+          <HeaderComp />
+          <div className="content">
+
+            <Routes>
+              <Route path='/' element={<AuthenticationScreen />} />
+              <Route path='/auth' element={<AuthenticationScreen />} />
+              <Route path='/dashboard' element={<DashboardComp />} />
+            </Routes>
+
+          </div>
+          <FooterComp />
+        </div>
+      </BrowserRouter>
+    </React.StrictMode>
   );
 };

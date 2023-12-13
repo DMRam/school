@@ -1,0 +1,7 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://danny_sports:TrinidadLucianaMunozVeas@cluster0.1hfasso.mongodb.net/schoolUsersDB?retryWrites=true&w=majority
+
+auth-service:
+  url: http://localhost:8081

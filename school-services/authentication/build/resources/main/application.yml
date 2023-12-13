@@ -1,0 +1,4 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://danny_sports:TrinidadLucianaMunozVeas@cluster0.1hfasso.mongodb.net/schoolUsersDB?retryWrites=true&w=majority
