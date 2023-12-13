@@ -15,14 +15,14 @@ const sliceMenu = createSlice({
     name: "ui",
     initialState,
     reducers: {
-        toggleFunction(state) {
+        toggleBoolean(state) {
             state.isVisible = !state.isVisible;
         },
         
     },
 });
 
-export const { toggleFunction } =
+export const { toggleBoolean } =
     sliceMenu.actions;
 export const selectUI = (state: RootState) => state.ui;
 
