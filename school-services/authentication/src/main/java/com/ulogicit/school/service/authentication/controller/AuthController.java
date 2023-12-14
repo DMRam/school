@@ -10,6 +10,7 @@ import com.ulogicit.school.service.authentication.security.jwt.JwtUtil;
 import com.ulogicit.school.service.authentication.security.services.AuthUserDetailsImp;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
@@ -52,7 +53,6 @@ public class AuthController {
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
-        System.out.println(loginRequest + " ***************");
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
@@ -92,7 +92,7 @@ public class AuthController {
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
-    @PostMapping("/api/auth/logout")
+    @PostMapping("/logout")
     public ResponseEntity<?> logoutUser(HttpServletRequest request, HttpServletResponse response) {
         // Extract JWT token from the authorization header
         String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
@@ -104,7 +104,7 @@ public class AuthController {
             // For example, validate and extract claims
 
             // Generate a clean JWT cookie (with immediate expiration)
-            ResponseCookie expiredJwtCookie = ResponseCookie.from("JWT_TOKEN", "")
+            ResponseCookie expiredJwtCookie = ResponseCookie.from("school_app", "")
                     .path("/")
                     .maxAge(0)
                     .httpOnly(true)
@@ -114,6 +114,12 @@ public class AuthController {
 
             // Add the cookie to the response to invalidate the client-side session
             response.setHeader(HttpHeaders.SET_COOKIE, expiredJwtCookie.toString());
+
+            // Prevent caching of sensitive pages like the dashboard
+            response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+            response.setHeader("Pragma", "no-cache");
+            response.setHeader("Expires", "0");
+
 
             return ResponseEntity.ok(new MessageResponse("Logout successful"));
         }

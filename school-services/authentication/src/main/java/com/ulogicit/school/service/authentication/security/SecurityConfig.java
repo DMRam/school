@@ -11,6 +11,7 @@ package com.ulogicit.school.service.authentication.security;
 import com.ulogicit.school.service.authentication.security.jwt.AuthEntryPointJwt;
 import com.ulogicit.school.service.authentication.security.jwt.AuthTokenFilter;
 import com.ulogicit.school.service.authentication.security.services.AuthUserDetailsServiceImp;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -42,8 +43,9 @@ public class SecurityConfig {
     AuthUserDetailsServiceImp authUserDetailsServiceImp;
     @Autowired
     private AuthEntryPointJwt authEntryPointJwt;
+
     @Bean
-    public AuthTokenFilter authenticationJwtTokenFilter(){
+    public AuthTokenFilter authenticationJwtTokenFilter() {
         return new AuthTokenFilter();
     }
 
@@ -98,8 +100,17 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/api/auth/**").permitAll()
-                                .requestMatchers("/api/test/**").permitAll()
                                 .anyRequest().authenticated()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/api/auth/logout") // Specify the logout URL
+                        .invalidateHttpSession(true)
+                        .deleteCookies("school_app")
+                        .logoutSuccessHandler((request, response, authentication) -> {
+                            response.setStatus(HttpServletResponse.SC_OK);
+                            response.getWriter().write("*** Logout successful ***"); // Write a response message
+                            response.getWriter().flush();
+                        })
                 );
 
         http.authenticationProvider(authenticationProvider());
@@ -108,6 +119,7 @@ public class SecurityConfig {
 
         return http.build();
     }
+
 
 }
 

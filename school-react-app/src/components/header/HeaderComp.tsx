@@ -7,14 +7,14 @@ import { useData } from '../../hooks/useData';
 
 export const HeaderComp = () => {
     const [showMenu, setShowMenu] = useState(false);
-    const { onOffGearIcon } = useData();
+    const { onOffGearIcon, toggleGearIcon } = useData();
 
     const navigate = useNavigate();
 
     const handleLogout = async () => {
         try {
             // Retrieve the token from local storage
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('school_app');
 
             // Make a request to the logout endpoint on the server
             await axios.post('http://localhost:8081/api/auth/logout', null, {
@@ -24,15 +24,19 @@ export const HeaderComp = () => {
             });
 
             // Clear the token from local storage on logout
-            localStorage.removeItem('token');
+            localStorage.removeItem('school_app');
+            // localStorage.clear()
 
             // Redirect to the login page or another route after logout
             navigate('/login'); // Redirect to the login page
+            toggleGearIcon()
+            window.history.replaceState(null, '', '/login');
         } catch (error) {
             console.error('Error occurred during logout:', error);
         }
     };
 
+    // I need a dedicated toggle for this
     const handleMenuToggle = () => {
         setShowMenu(!showMenu);
     };
