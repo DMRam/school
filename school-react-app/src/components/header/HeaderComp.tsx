@@ -1,11 +1,37 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import { Navbar, Nav, Button, Dropdown } from 'react-bootstrap';
 import { FaCog } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import { useData } from '../../hooks/useData';
 
 export const HeaderComp = () => {
     const [showMenu, setShowMenu] = useState(false);
     const { onOffGearIcon } = useData();
+
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        try {
+            // Retrieve the token from local storage
+            const token = localStorage.getItem('token');
+
+            // Make a request to the logout endpoint on the server
+            await axios.post('http://localhost:8081/api/auth/logout', null, {
+                headers: {
+                    Authorization: `Bearer ${token}`, // Include the token in the request header
+                },
+            });
+
+            // Clear the token from local storage on logout
+            localStorage.removeItem('token');
+
+            // Redirect to the login page or another route after logout
+            navigate('/login'); // Redirect to the login page
+        } catch (error) {
+            console.error('Error occurred during logout:', error);
+        }
+    };
 
     const handleMenuToggle = () => {
         setShowMenu(!showMenu);
@@ -31,7 +57,7 @@ export const HeaderComp = () => {
 
                 <Dropdown.Menu>
                     <Dropdown.Item href="#settings">Settings</Dropdown.Item>
-                    <Dropdown.Item href="#logout">Logout</Dropdown.Item>
+                    <Dropdown.Item onClick={handleLogout} href="#logout">Logout</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>}
         </Navbar>

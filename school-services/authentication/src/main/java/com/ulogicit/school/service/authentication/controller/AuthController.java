@@ -92,17 +92,32 @@ public class AuthController {
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
-    @PostMapping("/logout")
+    @PostMapping("/api/auth/logout")
     public ResponseEntity<?> logoutUser(HttpServletRequest request, HttpServletResponse response) {
-        // Extract JWT token from request cookies
-        String jwtToken = jwtUtils.getJwtFromCookies(request);
+        // Extract JWT token from the authorization header
+        String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if (jwtToken != null && jwtUtils.validateJwtToken(jwtToken)) {
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            String jwtToken = authorizationHeader.substring(7); // Extract the token after "Bearer "
+
+            // Validate or check the JWT token as needed
+            // For example, validate and extract claims
+
             // Generate a clean JWT cookie (with immediate expiration)
-            ResponseCookie expiredJwtCookie = jwtUtils.getCleanJwtCookie();
+            ResponseCookie expiredJwtCookie = ResponseCookie.from("JWT_TOKEN", "")
+                    .path("/")
+                    .maxAge(0)
+                    .httpOnly(true)
+                    .secure(true) // Set to true if your application uses HTTPS
+                    .sameSite("Strict") // Adjust according to your requirements
+                    .build();
+
+            // Add the cookie to the response to invalidate the client-side session
             response.setHeader(HttpHeaders.SET_COOKIE, expiredJwtCookie.toString());
+
             return ResponseEntity.ok(new MessageResponse("Logout successful"));
         }
+
         return ResponseEntity.badRequest().body(new MessageResponse("Invalid or missing JWT token"));
     }
 

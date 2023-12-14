@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './auth_form_styles.css'; // Custom CSS file for styling (create this file)
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'; // Import Axios
+import { useData } from '../../../hooks/useData';
 
 interface FormDataObject {
   [key: string]: string | File; // Allow string or File types
@@ -12,7 +13,7 @@ interface FormDataObject {
 export const AuthenticationScreen = () => {
   const [isLogin, setIsLogin] = useState(true);
   const navigate = useNavigate();
-
+  const { toggleGearIcon } = useData();
   // const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
@@ -41,6 +42,7 @@ export const AuthenticationScreen = () => {
       }
 
       navigate('/dashboard');
+      toggleGearIcon()
     } catch (error: any) {
       if (error.response && error.response.data && error.response.data.message) {
         console.error(error.response.data.message);
