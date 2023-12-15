@@ -6,8 +6,6 @@ import { DashboardComp } from "../../dashboard/DashboardComp";
 
 
 export const ProtectedRoute: React.FC = () => {
-    const { onOffGearIcon } = useData(); // Assuming this hook manages user authentication state
-
     // Check if user is authenticated. Replace this with your actual authentication logic.
     const isLoggedIn = useAppSelector((state: RootState) => state.ui.isVisible);
 
