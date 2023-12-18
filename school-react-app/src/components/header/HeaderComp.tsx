@@ -43,7 +43,7 @@ export const HeaderComp = () => {
 
     return (
         <Navbar bg="primary" variant="dark" expand="lg">
-            <Navbar.Brand href="#home">School Admin</Navbar.Brand>
+            <Navbar.Brand style={{marginLeft:5}} href="#home">School Admin</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
             {onOffGearIcon && <Navbar.Collapse id="basic-navbar-nav">
