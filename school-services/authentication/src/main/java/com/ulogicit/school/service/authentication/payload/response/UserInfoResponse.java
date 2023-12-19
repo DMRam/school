@@ -1,7 +1,5 @@
 package com.ulogicit.school.service.authentication.payload.response;
 
-import java.util.List;
-
 /**
  * <p>
  * </p>
@@ -10,10 +8,12 @@ import java.util.List;
  * @project authentication
  */
 public class UserInfoResponse {
+
+    private String id;
     private String username;
     private String email;
 
-    public UserInfoResponse(String username, String email) {
+    public UserInfoResponse(String username, String email, String userDetailsEmail) {
         this.username = username;
         this.email = email;
     }
@@ -34,4 +34,11 @@ public class UserInfoResponse {
         this.username = username;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

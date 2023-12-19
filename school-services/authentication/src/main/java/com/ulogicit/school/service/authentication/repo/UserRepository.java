@@ -13,7 +13,7 @@ import java.util.Optional;
  * @author dannymunoz on 2023-12-12
  * @project auth
  */
-public interface UserRepository extends MongoRepository<AuthUser, Integer> {
+public interface UserRepository extends MongoRepository<AuthUser, String> {
     Optional<AuthUser> findByUsername(String username);
 
     Boolean existsByUsername(String username);

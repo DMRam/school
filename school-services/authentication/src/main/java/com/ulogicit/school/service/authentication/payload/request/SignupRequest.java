@@ -3,6 +3,7 @@ package com.ulogicit.school.service.authentication.payload.request;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import org.springframework.data.annotation.Id;
 
 import java.util.Set;
 
@@ -14,6 +15,18 @@ import java.util.Set;
  * @project authentication
  */
 public class SignupRequest {
+
+    @Id
+    private String id;
+
+    @NotBlank
+    @Size(min = 3, max = 20)
+    private String name;
+
+    @NotBlank
+    @Size(min = 3, max = 20)
+    private String lastName;
+
     @NotBlank
     @Size(min = 3, max = 20)
     private String username;
@@ -53,11 +66,27 @@ public class SignupRequest {
         this.password = password;
     }
 
-//    public Set<String> getRoles() {
-//        return this.roles;
-//    }
-//
-//    public void setRole(Set<String> roles) {
-//        this.roles = roles;
-//    }
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 }

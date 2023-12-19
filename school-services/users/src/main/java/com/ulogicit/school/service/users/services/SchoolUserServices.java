@@ -17,7 +17,9 @@ public interface SchoolUserServices {
 
     SchoolUser addSchoolUsers(SchoolUser schoolUser);
 
-    public SchoolUser deleteSchoolUserById(int id);
+    SchoolUser deleteSchoolUserById(String id);
 
-    public SchoolUser updateSchoolUser(int id, SchoolUser schoolUser);
+    public SchoolUser updateSchoolUser(String id, SchoolUser schoolUser);
+
+    public SchoolUser findUserByEmail(String email);
 }

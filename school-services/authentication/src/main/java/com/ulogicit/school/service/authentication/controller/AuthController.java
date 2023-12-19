@@ -10,7 +10,6 @@ import com.ulogicit.school.service.authentication.security.jwt.JwtUtil;
 import com.ulogicit.school.service.authentication.security.services.AuthUserDetailsImp;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
@@ -64,6 +63,7 @@ public class AuthController {
 
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
                 .body(new UserInfoResponse(
+                        userDetails.getId(),
                         userDetails.getUsername(),
                         userDetails.getEmail()));
     }
@@ -83,7 +83,10 @@ public class AuthController {
         }
 
         // Create new user's account without handling roles
-        AuthUser user = new AuthUser(signUpRequest.getUsername(),
+        AuthUser user = new AuthUser(
+                signUpRequest.getName(),
+                signUpRequest.getLastName(),
+                signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()));
 

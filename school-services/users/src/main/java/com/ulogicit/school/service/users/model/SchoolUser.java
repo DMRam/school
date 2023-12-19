@@ -20,7 +20,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class SchoolUser {
 
     @Id
-    private Integer id;
+    private String id;
     private String name;
     private String lastName;
     private String email;

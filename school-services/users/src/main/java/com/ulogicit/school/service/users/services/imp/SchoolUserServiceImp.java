@@ -6,6 +6,7 @@ import com.ulogicit.school.service.users.services.SchoolUserServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,8 +33,9 @@ public class SchoolUserServiceImp implements SchoolUserServices {
         return schoolUserRepository.save(schoolUser);
     }
 
+
     @Override
-    public SchoolUser deleteSchoolUserById(int id) {
+    public SchoolUser deleteSchoolUserById(String id) {
         Optional<SchoolUser> userToDelete = schoolUserRepository.findById(id);
 
         if (userToDelete.isPresent()) {
@@ -47,7 +49,7 @@ public class SchoolUserServiceImp implements SchoolUserServices {
 
 
     @Override
-    public SchoolUser updateSchoolUser(int id, SchoolUser updatedUser) {
+    public SchoolUser updateSchoolUser(String id, SchoolUser updatedUser) {
         Optional<SchoolUser> existingUserOptional = schoolUserRepository.findById(id);
 
         if (existingUserOptional.isPresent()) {
@@ -60,6 +62,16 @@ public class SchoolUserServiceImp implements SchoolUserServices {
             // Handle scenario when the user with the given ID is not found
             return null;
         }
+    }
+
+    @Override
+    public SchoolUser findUserByEmail(String email) {
+        return schoolUserRepository.findByEmail(email);
+    }
+
+
+    public SchoolUser findUserById(String id) {
+        return schoolUserRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
     }
 
 }

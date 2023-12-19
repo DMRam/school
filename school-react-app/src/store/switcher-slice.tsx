@@ -1,14 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { UserInterface } from "../interfaces/UserInterface";
 import { RootState } from "./index";
 
 interface ToggleState {
     isVisible: boolean;
 }
 
+const userLogged: UserInterface =
+{
+    id: '',
+    name: "",
+    lastName: "",
+    email: "",
+}
 
 
-const initialState: ToggleState = {
+
+
+const initialState = {
     isVisible: false,
+    userLogged
 };
 
 const sliceMenu = createSlice({
@@ -18,11 +29,14 @@ const sliceMenu = createSlice({
         toggleBoolean(state) {
             state.isVisible = !state.isVisible;
         },
-        
+        addUserLogged(state, action) {
+            state.userLogged = action.payload
+        }
+
     },
 });
 
-export const { toggleBoolean } =
+export const { toggleBoolean, addUserLogged } =
     sliceMenu.actions;
 export const selectUI = (state: RootState) => state.ui;
 

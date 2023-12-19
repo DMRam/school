@@ -28,6 +28,9 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '4.1.0'
 
+    implementation 'javax.persistence:javax.persistence-api:2.2' // Adjust the version based on your requirements
+
+
 
 }
 

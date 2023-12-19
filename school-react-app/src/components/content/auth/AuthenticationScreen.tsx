@@ -5,51 +5,43 @@ import './auth_form_styles.css'; // Custom CSS file for styling (create this fil
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'; // Import Axios
 import { useData } from '../../../hooks/useData';
+import { useHandleData } from '../../../hooks/handleData';
+import { UserInterface } from '../../../interfaces/UserInterface';
+import api from '../../../services/APIAxios';
+import { useAuthentication } from '../../../hooks/useAuthentication';
 
 interface FormDataObject {
   [key: string]: string | File; // Allow string or File types
 }
 
 export const AuthenticationScreen = () => {
-  const [isLogin, setIsLogin] = useState(true);
-  const navigate = useNavigate();
   const { toggleGearIcon } = useData();
-  // const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const { sendLoggedUser } = useHandleData();
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const {
+    username,
+    email,
+    handleLogin,
+    handleSignUp,
+    password,
+    setUsername,
+    setEmail,
+    setPassword,
+  } = useAuthentication();
+
+  const [isLogin, setIsLogin] = useState(true);
+
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-
-
-    const userData: FormDataObject = isLogin
-      ? { username, password }
-      : { username, email, password };
-    console.log(userData); // Log the entire userData object
-    console.log(JSON.stringify(userData)); // Log the stringified version of userData
-
-    try {
-      let response;
-      if (isLogin) {
-        response = await axios.post('http://localhost:8081/api/auth/signin', userData);
-      } else {
-        response = await axios.post('http://localhost:8081/api/auth/signup', userData);
-      }
-
-      if (response.data && response.data.message) {
-        console.log(response.data.message);
-      }
-
-      navigate('/dashboard');
-      toggleGearIcon()
-    } catch (error: any) {
-      if (error.response && error.response.data && error.response.data.message) {
-        console.error(error.response.data.message);
-      } else {
-        console.error('An error occurred during form submission.');
-      }
+    if (isLogin) {
+      await handleLogin({ username, password });
+    } else {
+      await handleSignUp({ username, email, password });
     }
+    // Redirect logic or state change after login/signup success
+    navigate('/dashboard');
+    toggleGearIcon();
   };
 
   return (
@@ -69,7 +61,6 @@ export const AuthenticationScreen = () => {
           </Form.Group>
           {!isLogin && (
             <>
-
               <Form.Group controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>
                 <Form.Control
@@ -83,7 +74,6 @@ export const AuthenticationScreen = () => {
             </>
           )}
 
-
           <Form.Group controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
             <Form.Control
@@ -94,19 +84,6 @@ export const AuthenticationScreen = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </Form.Group>
-
-          {/* {!isLogin && (
-            <Form.Group controlId="formBasicConfirmPassword">
-              <Form.Label>Confirm Password</Form.Label>
-              <Form.Control
-                name="confirm_password"
-                type="password"
-                placeholder="Confirm Password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-            </Form.Group>
-          )} */}
 
           <Button variant="primary" type="submit">
             {isLogin ? 'Login' : 'Sign Up'}
@@ -120,4 +97,3 @@ export const AuthenticationScreen = () => {
     </Container>
   );
 };
-

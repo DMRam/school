@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import './dashboard_styles.css';
 import { Card } from 'react-bootstrap';
+import { useData } from '../../../hooks/useData';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -13,11 +14,15 @@ interface CardData {
 }
 
 export const DashboardComp: React.FC = () => {
+  const { onOffGearIcon, userLogged } = useData()
+
   const initialCards: CardData[] = [
     { id: '1', content: 'Contenido para la Sección 1' },
     { id: '2', content: 'Contenido para la Sección 2' },
     // Add more cards as needed
   ];
+
+
 
   const onLayoutChange = (layout: any) => {
     console.log('Nuevo diseño:', layout);
@@ -25,7 +30,9 @@ export const DashboardComp: React.FC = () => {
 
   return (
     <div className="dashboard" >
-      <h1>Dashboard</h1>
+      <h1>
+        Welcome, {userLogged.name}
+      </h1>
       <ResponsiveGridLayout
         className="layout"
         layouts={{
