@@ -16,6 +16,7 @@ import java.util.List;
  * @author dannymunoz on 2023-12-12
  * @project users
  */
+//@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api") // Base path for API endpoints
 public class SchoolUserController {
@@ -40,7 +41,7 @@ public class SchoolUserController {
     }
 
     @GetMapping("/user/{email}")
-    public ResponseEntity<SchoolUser> getUserId(@PathVariable String email) {
+    public ResponseEntity<SchoolUser> getUserByEmail(@PathVariable String email) {
         SchoolUser users = userService.findUserByEmail(email);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }

@@ -12,6 +12,7 @@ const userLogged: UserInterface =
     name: "",
     lastName: "",
     email: "",
+    password: ""
 }
 
 

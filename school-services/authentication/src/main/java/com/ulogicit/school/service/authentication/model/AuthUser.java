@@ -25,7 +25,6 @@ public class AuthUser {
     private String id;
     private String name;
     private String lastName;
-    private String username;
     private String email;
     private String password;
 
@@ -34,12 +33,11 @@ public class AuthUser {
     }
 
 
-    public AuthUser(String name, String lastName, String username, String email, String encode) {
+    public AuthUser(String name, String lastName, String email, String encode) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
-        this.username = username;
         this.email = email;
-        this.password = password;
+        this.password = encode;
     }
 }

@@ -41,7 +41,7 @@ public class JwtUtil {
 
     // Generate a JWT as a cookie
     public ResponseCookie generateJwtCookie(AuthUserDetailsImp authUserDetailsImp) {
-        String jwt = generateTokenFromUsername(authUserDetailsImp.getUsername());
+        String jwt = generateTokenFromUsersEmail(authUserDetailsImp.getEmail());
         return ResponseCookie.from(jwtCookie, jwt).path("/api").maxAge(24 * 60 * 60).httpOnly(true).build();
     }
 
@@ -51,7 +51,7 @@ public class JwtUtil {
     }
 
     // Get the username from a JWT token
-    public String getUserNameFromJwtToken(String token) {
+    public String getUsersEmailFromJwtToken(String token) {
         return Jwts.parser()
                 .verifyWith(Keys.hmacShaKeyFor(jwtSecret.getBytes()))
                 .build()
@@ -74,8 +74,8 @@ public class JwtUtil {
     }
 
     // Generate a JWT token from the username
-    public String generateTokenFromUsername(String username) {
-        return Jwts.builder().subject(username).issuedAt(new Date()).expiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
+    public String generateTokenFromUsersEmail(String email) {
+        return Jwts.builder().subject(email).issuedAt(new Date()).expiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
                 .signWith(Keys.hmacShaKeyFor(jwtSecret.getBytes()))
                 .compact();
     }

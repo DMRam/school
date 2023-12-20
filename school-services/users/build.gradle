@@ -29,6 +29,7 @@ dependencies {
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '4.1.0'
 
     implementation 'javax.persistence:javax.persistence-api:2.2' // Adjust the version based on your requirements
+    implementation 'io.projectreactor:reactor-core:3.4.12' // Use the appropriate version
 
 
 

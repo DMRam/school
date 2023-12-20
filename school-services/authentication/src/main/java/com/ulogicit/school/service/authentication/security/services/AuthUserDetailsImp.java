@@ -13,21 +13,20 @@ public class AuthUserDetailsImp implements UserDetails {
     private static final long serialVersionUID = 1L;
 
     private String id;
-    private String username;
+    private String name;
     private String email;
     @JsonIgnore
     private String password;
 
-    public AuthUserDetailsImp(String username, String email, String password) {
-        this.id = id;
-        this.username = username;
+    public AuthUserDetailsImp(String name, String email, String password) {
+        this.name = name;
         this.email = email;
         this.password = password;
     }
 
     public static AuthUserDetailsImp build(AuthUser user) {
         return new AuthUserDetailsImp(
-                user.getUsername(),
+                user.getName(),
                 user.getEmail(),
                 user.getPassword());
 
@@ -42,6 +41,10 @@ public class AuthUserDetailsImp implements UserDetails {
         return email;
     }
 
+    public String getName() {
+        return name;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
@@ -54,7 +57,7 @@ public class AuthUserDetailsImp implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return name;
     }
 
     @Override

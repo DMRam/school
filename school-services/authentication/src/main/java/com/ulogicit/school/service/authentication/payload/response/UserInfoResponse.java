@@ -10,11 +10,11 @@ package com.ulogicit.school.service.authentication.payload.response;
 public class UserInfoResponse {
 
     private String id;
-    private String username;
+    private String name;
     private String email;
 
-    public UserInfoResponse(String username, String email, String userDetailsEmail) {
-        this.username = username;
+    public UserInfoResponse(String name, String email) {
+        this.name = name;
         this.email = email;
     }
 
@@ -26,12 +26,12 @@ public class UserInfoResponse {
         this.email = email;
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getId() {

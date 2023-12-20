@@ -10,7 +10,6 @@ export const useData = () => {
         dispatch(toggleBoolean())
     }
 
-    console.log(userLogged.id + " @@@@@@@@@@@")
     return {
         onOffGearIcon,
         toggleGearIcon,
