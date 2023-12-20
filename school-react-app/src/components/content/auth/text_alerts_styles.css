@@ -1,0 +1,19 @@
+/* Define animation */
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+  
+  /* Style for error message */
+  .error-message {
+    color: red;
+    animation: fadeInOut 2s ease-in-out;
+  }
+  
+  /* Style for success message */
+  .success-message {
+    color: lightgreen;
+    animation: fadeInOut 2s ease-in-out;
+  }
+  

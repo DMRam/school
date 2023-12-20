@@ -16,13 +16,13 @@ export const loginUser = async (credentials: { email: string; password: string }
 
 export const onSignUp = async (newUser: UserInterface) => {
 
-    console.log("------ Start login ------")
+    console.log("------ Start signUp ------")
     try {
         const response = await axiosInstanceAuth.post('/auth/signup', newUser);
-        console.log(response.data + ' - Login successful');
+        console.log(response.data + ' - User created successfully');
         return response.data;
     } catch (error) {
-        console.error('Failed to login:', error);
-        throw new Error('Failed to login');
+        console.error('Failed to signUp:', error);
+        throw new Error('Failed to signUp');
     }
 };

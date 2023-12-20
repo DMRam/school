@@ -4,10 +4,12 @@ import { Navbar, Nav, Button, Dropdown } from 'react-bootstrap';
 import { FaCog } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useData } from '../../hooks/useData';
+import { useMetaData } from '../../hooks/useMetaData';
 
 export const HeaderComp = () => {
     const [showMenu, setShowMenu] = useState(false);
     const { onOffGearIcon, toggleGearIcon } = useData();
+    const { toggleMetaDataLogin } = useMetaData()
 
     const navigate = useNavigate();
 
@@ -28,6 +30,7 @@ export const HeaderComp = () => {
             // localStorage.clear()
 
             // Redirect to the login page or another route after logout
+            toggleMetaDataLogin()
             navigate('/login'); // Redirect to the login page
             toggleGearIcon()
             window.history.replaceState(null, '', '/login');
@@ -43,7 +46,7 @@ export const HeaderComp = () => {
 
     return (
         <Navbar bg="primary" variant="dark" expand="lg">
-            <Navbar.Brand style={{marginLeft:5}} href="#home">School Admin</Navbar.Brand>
+            <Navbar.Brand style={{ marginLeft: 5 }} href="#home">School Admin</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
             {onOffGearIcon && <Navbar.Collapse id="basic-navbar-nav">

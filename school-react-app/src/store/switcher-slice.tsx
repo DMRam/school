@@ -20,6 +20,8 @@ const userLogged: UserInterface =
 
 const initialState = {
     isVisible: false,
+    metaDataLoginTrigger: false,
+    metaDataSignUpTrigger: false,
     userLogged
 };
 
@@ -32,12 +34,18 @@ const sliceMenu = createSlice({
         },
         addUserLogged(state, action) {
             state.userLogged = action.payload
-        }
+        },
+        toggleMetaDataBooleanLogin(state) {
+            state.metaDataLoginTrigger = !state.metaDataLoginTrigger
+        },
+        toggleMetaDataBooleanSignUp(state) {
+            state.metaDataSignUpTrigger = !state.metaDataSignUpTrigger
+        },
 
     },
 });
 
-export const { toggleBoolean, addUserLogged } =
+export const { toggleBoolean, addUserLogged, toggleMetaDataBooleanLogin, toggleMetaDataBooleanSignUp } =
     sliceMenu.actions;
 export const selectUI = (state: RootState) => state.ui;
 
