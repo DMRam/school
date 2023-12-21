@@ -10,6 +10,8 @@ import { useHandleData } from '../../../hooks/useHandleData';
 import { UserInterface } from '../../../interfaces/UserInterface';
 import { TextAlerts } from './TextAlerts';
 import { useMetaData } from '../../../hooks/useMetaData';
+import { SignUpForm } from './SignUpForm';
+import { LoginForm } from './LoginForm';
 
 interface FormDataObject {
   [key: string]: string | File; // Allow string or File types
@@ -17,7 +19,6 @@ interface FormDataObject {
 
 export const AuthenticationScreen = () => {
   const [isLogin, setIsLogin] = useState(true);
-  const [isFail, setIsFail] = useState(false);
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -30,7 +31,7 @@ export const AuthenticationScreen = () => {
     email: "",
     password: ""
   });
-  const { toggleMetaDataLogin, toggleMetaDataSignUp } = useMetaData()
+  const { toggleMetaDataLogin, toggleMetaDataSignUp, switchMetadataHandlerLogin } = useMetaData()
 
   const nameHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUser((prevUser) => ({
@@ -53,6 +54,19 @@ export const AuthenticationScreen = () => {
     }));
   };
 
+  const switchAlertStateLoginBadCredentials = () => {
+    if (isLogin && !switchMetadataHandlerLogin) {
+      toggleMetaDataLogin()
+    }
+  }
+
+  const onNewUserSignUp = () => {
+    setIsLogin(!isLogin)
+    if (isLogin && switchMetadataHandlerLogin) {
+      toggleMetaDataLogin()
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Creating only password to add in newUser created
@@ -73,20 +87,17 @@ export const AuthenticationScreen = () => {
           navigate('/dashboard');
           setEmail('');
           setPassword('');
+
         });
       } catch (error) {
         // Logging error should trigger boolean to texts alert
-        console.log(setIsFail(!isFail) + " khsdkjhsdkjhkjsdhkj")
         console.error('Login failed:', error);
-
-        toggleMetaDataLogin()
-
+        switchAlertStateLoginBadCredentials()
       }
     } else {
       // Handle sign-up logic if needed
       try {
         await onSignUp(user);
-        console.log(JSON.stringify(user) + " USER TO REGISTERED!!!!");
         navigate('/');
         setUser({
           id: "",
@@ -112,81 +123,30 @@ export const AuthenticationScreen = () => {
     });
   };
 
+  const onSetEmailFunction = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setEmail(e.target.value);
+  };
+  const onSetIsLoginFunction = (isLoginParam: boolean) => {
+    setIsLogin(isLoginParam);
+  };
+  const onSetPasswordFunction = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setPassword(e.target.value);
+  };
+
+
   return (
-    <Container>
-      <div className="auth-form">
-        <h2>{isLogin ? 'Login' : 'Sign Up'}</h2>
-        <Form onSubmit={handleSubmit}>
-          {isLogin && (
-            <Form.Group controlId="formBasicUsername">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                name="email"
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </Form.Group>
-          )}
-          {!isLogin && (
-            <>
-              <Form.Group controlId="formBasicEmail">
-                <Form.Label>Name</Form.Label>
-                <Form.Control
-                  name="email"
-                  type="string"
-                  placeholder="Enter name"
-                  value={user.name}
-                  onChange={nameHandler}
-                />
-                <Form.Label>Last name</Form.Label>
-                <Form.Control
-                  name="email"
-                  type="string"
-                  placeholder="Enter email"
-                  value={user.lastName}
-                  onChange={lastNameHandler}
-                />
-                <Form.Label>Email address</Form.Label>
-                <Form.Control
-                  name="email"
-                  type="email"
-                  placeholder="Enter email"
-                  value={user.email}
-                  onChange={emailHandler}
-                />
-              </Form.Group>
-            </>
-          )}
-
-          <Form.Group controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              name="password"
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </Form.Group>
-
-          <Button variant="primary" type="submit">
-            {isLogin ? 'Login' : 'Sign Up'}
-          </Button>
-
-          {isLogin ? (
-            <p onClick={() => { setIsLogin(!isLogin); toggleMetaDataLogin(); }}>
-              New user? Sign Up
-            </p>
-          ) : (
-            <p onClick={() => setIsLogin(!isLogin)}>
-              Already a user? Login
-            </p>
-          )}
-          <TextAlerts />
-        </Form>
-      </div>
-    </Container>
+    <LoginForm
+      email={email}
+      isLogin={isLogin}
+      password={password}
+      emailHandler={emailHandler}
+      lastNameHandler={lastNameHandler}
+      nameHandler={nameHandler}
+      onSetEmailFunction={onSetEmailFunction}
+      onSetIsLoginFunction={onSetIsLoginFunction}
+      onSetPasswordFunction={onSetPasswordFunction}
+      onNewUserSignUp={onNewUserSignUp}
+      handleSubmit={handleSubmit}
+      user={user} />
   );
 };

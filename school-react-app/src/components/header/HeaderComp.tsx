@@ -9,7 +9,7 @@ import { useMetaData } from '../../hooks/useMetaData';
 export const HeaderComp = () => {
     const [showMenu, setShowMenu] = useState(false);
     const { onOffGearIcon, toggleGearIcon } = useData();
-    const { toggleMetaDataLogin } = useMetaData()
+    const { toggleMetaDataLogin, switchMetadataHandlerLogin } = useMetaData()
 
     const navigate = useNavigate();
 
@@ -23,17 +23,21 @@ export const HeaderComp = () => {
                 headers: {
                     Authorization: `Bearer ${token}`, // Include the token in the request header
                 },
-            });
+            }).then((data) => {
+                // Clear the token from local storage on logout
+                localStorage.removeItem('school_app');
+                // localStorage.clear()
 
-            // Clear the token from local storage on logout
-            localStorage.removeItem('school_app');
-            // localStorage.clear()
+                // Redirect to the login page or another route after logout
+                if (switchMetadataHandlerLogin) {
+                    toggleMetaDataLogin()
+                }
 
-            // Redirect to the login page or another route after logout
-            toggleMetaDataLogin()
-            navigate('/login'); // Redirect to the login page
-            toggleGearIcon()
-            window.history.replaceState(null, '', '/login');
+                navigate('/login'); // Redirect to the login page
+                toggleGearIcon()
+                window.history.replaceState(null, '', '/login');
+            })
+
         } catch (error) {
             console.error('Error occurred during logout:', error);
         }
